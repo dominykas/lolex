@@ -845,7 +845,7 @@ describe("lolex", function () {
         describe("tickAsync", function () {
 
             beforeEach(function () {
-                this.clock = lolex.install(0);
+                this.clock = lolex.install();
             });
 
             afterEach(function () {
@@ -1731,7 +1731,7 @@ describe("lolex", function () {
         describe("nextAsync", function () {
 
             beforeEach(function () {
-                this.clock = lolex.install(0);
+                this.clock = lolex.install();
             });
 
             afterEach(function () {
