@@ -505,7 +505,7 @@ function withGlobal(_global) {
     };
 
 
-    var globalSetImmediate = global.setImmediate;
+    var originalSetTimeout = _global.setTimeout;
 
     /**
      * @param start {Date|number} the system time
@@ -638,7 +638,7 @@ function withGlobal(_global) {
                             // finish up after native setImmediate callback to allow
                             // all native es6 promises to process their callbacks after
                             // each timer fires.
-                            globalSetImmediate(nextPromiseTick);
+                            originalSetTimeout(nextPromiseTick);
                             return;
                         }
 
@@ -716,7 +716,7 @@ function withGlobal(_global) {
         if (typeof global.Promise !== "undefined") {
             clock.tickAsync = function tickAsync(ms) {
                 return new global.Promise(function (resolve, reject) {
-                    globalSetImmediate(function () {
+                    originalSetTimeout(function () {
                         try {
                             doTick(ms, true, resolve, reject);
                         } catch (e) {
@@ -749,7 +749,7 @@ function withGlobal(_global) {
         if (typeof global.Promise !== "undefined") {
             clock.nextAsync = function nextAsync() {
                 return new global.Promise(function (resolve, reject) {
-                    globalSetImmediate(function () {
+                    originalSetTimeout(function () {
                         try {
                             var timer = firstTimer(clock);
                             if (!timer) {
@@ -767,7 +767,7 @@ function withGlobal(_global) {
                             }
                             clock.duringTick = false;
 
-                            globalSetImmediate(function () {
+                            originalSetTimeout(function () {
                                 if (err) {
                                     reject(err);
                                 } else {
@@ -810,7 +810,7 @@ function withGlobal(_global) {
                 return new global.Promise(function (resolve, reject) {
                     var i = 0;
                     function doRun() {
-                        globalSetImmediate(function () {
+                        originalSetTimeout(function () {
                             try {
                                 var numTimers;
                                 if (i < clock.loopLimit) {
@@ -858,7 +858,7 @@ function withGlobal(_global) {
         if (typeof global.Promise !== "undefined") {
             clock.runToLastAsync = function runToLastAsync() {
                 return new global.Promise(function (resolve, reject) {
-                    globalSetImmediate(function () {
+                    originalSetTimeout(function () {
                         try {
                             var timer = lastTimer(clock);
                             if (!timer) {
