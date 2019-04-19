@@ -2285,7 +2285,7 @@ describe("lolex", function () {
             });
 
             it("the loop limit can be set when installing a clock", function () {
-                this.clock = lolex.install(0, null, null, 1);
+                this.clock = lolex.install({ loopLimit: 1 });
                 var test = this;
                 var catchSpy = sinon.spy();
 
